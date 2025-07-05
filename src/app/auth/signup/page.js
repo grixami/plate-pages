@@ -6,7 +6,7 @@ import PasswordInput from "@/app/components/forms/passwordinput";
 import TextInput from "@/app/components/forms/textinput";
 import { useState } from "react";
 
-export default function Register() {
+export default function Signup() {
     
     const [registerLoading, setRegisterLoading] = useState(false)
 
@@ -69,7 +69,7 @@ export default function Register() {
                             <TextInput maxLen={15} id="username" name="username" placeholder={"username..."} pattern={"^[A-Za-z0-9_]*$"}/>
                             <PasswordInput maxLen={40} id="password" name="password" placeholder={"password..."}/>
                             {!registerLoading ? (
-                                <button type="submit" className=" bg-blue-600 py-2 text-white rounded-2xl transition-transform ease-in-out duration:300 hover:scale-105 hover:cursor-pointer hover:bg-blue-900">Sign up</button>
+                                <button type="submit" className=" bg-blue-600 py-2 text-white rounded-2xl transition-all ease-in-out duration-400 hover:scale-105 hover:cursor-pointer hover:bg-blue-900">Sign up</button>
                             ) : (
                                 <div className="flex justify-center">
                                     <Loading/>
@@ -83,10 +83,10 @@ export default function Register() {
 
                             {signupSuccess && (
                                 <div className="flex justify-center">
-                                    <p className="text-green-800 bg-green-100 p-2 rounded-xl">Success, please <a href="/auth/login" className="text-blue-600">Sign in</a></p>
+                                    <p className="text-green-800 bg-green-100 p-2 rounded-xl">Success, please <a href="/auth/signin" className="text-blue-600">Sign in</a></p>
                                 </div>
                             )}
-                            <p className="text-center text-sm"> Already have an account? <a href="/auth/login" className="text-blue-600">Sign in</a></p>
+                            <p className="text-center text-sm">Already have an account? <a href="/auth/signin" className="text-blue-600">Sign in</a></p>
                     </form>
                 </div>
             </div>
