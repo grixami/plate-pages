@@ -17,7 +17,7 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl font-bold">Home</p>
                 </a>
-                <a href="/dashboard/settings" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "createrecipe" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
+                <a href="/dashboard/create" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "create" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/notepad.svg"}
                     alt=""
