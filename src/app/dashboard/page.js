@@ -9,10 +9,9 @@ import { LoadingRecipePlaceholders } from "../utils/setvalues";
 
 export default function Dashboard() {
     const [recipes, setRecipes] = useState([])
-
     const [getRecipeLoading, setRecipeLoading] = useState(true)
 
-    const delRecipe = async (recipeId) => {
+    const callbackDelete = async (recipeId) => {
         try {
             const resp = await fetch("/api/recipe/delrecipe", {
                 method: "POST",
@@ -66,12 +65,11 @@ export default function Dashboard() {
                 <div className="flex-1 overflow-y-auto">
                     <div className="grid grid-cols-4 gap-x-6 gap-y-6 mx-5 mt-4">
                         {recipes.length > 0 && recipes.map((recipe) => (
-                            <RecipeCard key={recipe.id} recipe={recipe} callback={delRecipe}/>
+                            <RecipeCard key={recipe.id} recipe={recipe} callbackDelete={callbackDelete}/>
                         ))}
                         {getRecipeLoading && Array.from({ length: LoadingRecipePlaceholders }).map((_, index) => (
                             <LoadingRecipeCard key={index}/>
                         ))}
-                        
                     </div>
                 </div>
             </div>

@@ -23,7 +23,6 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl font-bold">Home</p>
                 </a>
-
                 <a href="/dashboard/create" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "create" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/notepad.svg"}
@@ -33,7 +32,6 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Create Recipe</p>
                 </a>
-
                 <a href="/explore" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "explore" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/compass.svg"}
@@ -44,7 +42,6 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Explore</p>
                 </a>
-
                 <a href="/dashboard/favorites" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "fav" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/heart.svg"}
@@ -54,7 +51,6 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Favorites</p>
                 </a>
-
                 <a href="/dashboard/help" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "help" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/questionmark.svg"}
@@ -64,7 +60,6 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Help</p>
                 </a>
-                
                 <a href="/dashboard/settings" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "settings" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/cog.svg"}

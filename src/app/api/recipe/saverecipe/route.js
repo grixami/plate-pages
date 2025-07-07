@@ -35,6 +35,7 @@ export async function POST(request) {
         }
 
         const editRecipe = await UpdateRecipe(parseInt(id), title, desc, JSON.stringify(ingredients), JSON.stringify(instructions), parseInt(time))
+        
         return new Response(JSON.stringify({ id: id }), {status: 200})
     } catch(error) {
         console.log(error)

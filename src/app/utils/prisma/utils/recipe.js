@@ -51,6 +51,13 @@ export async function GetRecipe(recipeId) {
     const recipe = await prisma.recipe.findUnique({
         where: {
             id: recipeId
+        },
+        include: {
+            author: {
+                select: {
+                    username: true
+                }
+            }
         }
     })
 
@@ -70,4 +77,6 @@ export async function UpdateRecipe(recipeId, title, desc, ingredients, instructi
             cooktime: time
         }
     })
+
+    return recipe
 }
