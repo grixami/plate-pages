@@ -12,7 +12,6 @@ export async function SetEmail(userId, email) {
     })
 
     return user
-    
 }
 
 export async function SetUsername(userId, username) {

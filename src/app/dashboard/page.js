@@ -22,12 +22,14 @@ export default function Dashboard() {
                         <input type="text" placeholder="What would you like to search for today?" className="w-full focus:outline-none"/>
                     </form>
                 </div>
+                <h1 className="text-4xl my-4 ml-4 font-bold">Your Created Recipes</h1>
                 <div className="flex-1 overflow-y-auto">
-                    <h1 className="text-4xl mt-4 ml-4 font-bold">Your recipes</h1>
                     <div className="grid grid-cols-4 gap-x-6 gap-y-6 mx-5 mt-4">
-                        {Array.from({ length: 50 }).map((_, i) => (
-                            <div key={i} className="bg-red-500 h-[25vh] rounded-lg flex items-center justify-center transition-transform duration-300 hover:cursor-pointer hover:scale-105">
-                                <p className="text-center text-2xl text-white">Recipe {i + 1}</p>
+                        {Array.from({ length: 80 }).map((_, i) => (
+                            <div key={i} className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] flex flex-col bg-white h-[25vh] rounded-lg items-center justify-center transition-transform duration-300 hover:cursor-pointer hover:scale-105 hover:-translate-y-3">
+                                <p className="text-center text-2xl">Recipe {i + 1}</p>
+                                <p className="description">description</p>
+                                <p>{60} mins to cook</p>
                             </div>
                         ))}
                     </div>

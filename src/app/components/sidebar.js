@@ -3,8 +3,14 @@ import Image from "next/image"
 export function Sidebar({ selected }) {
     return (
         <>
-        <div className="h-[20%] flex items-center justify-center">
-            <h1 className="text-center mt-4 font-semibold text-4xl">Plate pages</h1>
+        <div className="h-[20%] flex items-center justify-center space-x-2">
+            <Image
+                src={"/assets/icon/plate.svg"}
+                alt="icon"
+                width={40}
+                height={40}
+                />
+            <h1 className="text-center font-semibold text-4xl">Plate pages</h1>
         </div>
         <div className="h-[80%] flex flex-col items-center">
             <ul className="space-y-[35%]">
@@ -17,6 +23,7 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl font-bold">Home</p>
                 </a>
+
                 <a href="/dashboard/create" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "create" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/notepad.svg"}
@@ -26,16 +33,18 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Create Recipe</p>
                 </a>
+
                 <a href="/explore" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "explore" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/compass.svg"}
-                    className="-scale-x-100" // flips the image (x axis)
+                    className="-scale-x-100" // flips the image (x axis) so that the compass looks more natural
                     alt=""
                     width={30}
                     height={30}
                     />
                     <p className="text-xl">Explore</p>
                 </a>
+
                 <a href="/dashboard/favorites" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "fav" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/heart.svg"}
@@ -45,6 +54,7 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Favorites</p>
                 </a>
+
                 <a href="/dashboard/help" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "help" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/questionmark.svg"}
@@ -54,6 +64,7 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Help</p>
                 </a>
+                
                 <a href="/dashboard/settings" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "settings" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/cog.svg"}

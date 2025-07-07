@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
  
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
-    const { pathname } = request.nextUrl
     const token = request.cookies.get("token")
 
     if (token == null) {
@@ -10,7 +9,6 @@ export function middleware(request) {
     }
 
     return NextResponse.next()
-  
 }
 export const config = {
   matcher: [

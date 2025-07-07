@@ -28,9 +28,7 @@ export async function POST(request) {
         }
 
         const token = jwt.sign(jwtPayload, jwtSecret)
-
         return new Response(JSON.stringify({ token: token }))
-
     } catch (error) {
 
         console.log(error)

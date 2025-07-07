@@ -2,6 +2,7 @@
 
 import Loading from "@/app/components/forms/loading";
 import { Sidebar } from "@/app/components/sidebar";
+import { MaxPassLen, MaxUsernameLen } from "@/app/utils/setvalues";
 import { useState } from "react";
 
 export default function Settings() {
@@ -128,7 +129,6 @@ export default function Settings() {
                 <Sidebar selected={"settings"}/>
             </div>
             <div className="w-[83%] h-full bg-[#edede9] flex flex-col items-center">
-
                 <form onSubmit={handleEmailSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
                     <div className="p-2  flex space-x-2">
                         <input type="email" placeholder="New email..." className="w-[70%] focus:outline-none" onChange={(e) => {setEmail(e.target.value)}}/>
@@ -152,10 +152,9 @@ export default function Settings() {
                     </div>
                     )}
                 </form>
-
                 <form onSubmit={handleUsernameSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
                     <div className="p-2  flex space-x-2">
-                        <input maxLength={15} type="text" placeholder="New username..." className="w-[70%] focus:outline-none" onChange={(e) => {setUsername(e.target.value)}}/>
+                        <input maxLength={MaxUsernameLen} type="text" placeholder="New username..." className="w-[70%] focus:outline-none" onChange={(e) => {setUsername(e.target.value)}}/>
                         {!usernameLoading ? (
                             <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Username</button>
                         ) : (
@@ -176,11 +175,9 @@ export default function Settings() {
                     </div>
                     )}
                 </form>
-
-
                 <form onSubmit={handlePasswordSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
                     <div className="p-2  flex space-x-2">
-                        <input maxLength={40} type="password" placeholder="New password..." className="w-[70%] focus:outline-none" onChange={(e) => {setPassword(e.target.value)}}/>
+                        <input maxLength={MaxPassLen} type="password" placeholder="New password..." className="w-[70%] focus:outline-none" onChange={(e) => {setPassword(e.target.value)}}/>
                         {!passwordLoading ? (
                             <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Password</button>
                         ) : (

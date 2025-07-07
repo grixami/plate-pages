@@ -1,4 +1,5 @@
 import { SetPassword } from "@/app/utils/prisma/utils/settings"
+import { MaxPassLen } from "@/app/utils/setvalues"
 import { cookies } from "next/headers"
 const jwt = require("jsonwebtoken")
 const jwtSecret = process.env.JWT_SECRET
@@ -14,7 +15,7 @@ export async function POST(request) {
             })
         }
 
-        if(password.length > 40) {
+        if(password.length > MaxPassLen) {
             return new Response(JSON.stringify({ error: "Password must be longer than 40 characters" }), {
                 status: 400
             })
@@ -39,8 +40,8 @@ export async function POST(request) {
         const userId = decoded.userId
 
         const user = await SetPassword(userId, password)
-
         return new Response({status: 200})
+
     } catch(error) {
         console.log(error)
         return new Response(JSON.stringify({ error: "Internal server error" }), {

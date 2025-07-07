@@ -1,8 +1,8 @@
 import { CheckUserExists, CreateUser } from "@/app/utils/prisma/utils/auth"
+import { MaxPassLen, MaxUsernameLen } from "@/app/utils/setvalues"
 
 export async function POST(request) {
     try {
-
         const {email, username, password} = await request.json()
 
         if(!email || !username || !password) {
@@ -11,13 +11,13 @@ export async function POST(request) {
             })
         }
 
-        if(username.length > 15) {
+        if(username.length > MaxUsernameLen) {
             return new Response(JSON.stringify({ error: "Username must be 15 characters or less" }), {
                 status: 400
             })
         }
 
-        if(password.length > 40) {
+        if(password.length > MaxPassLen) {
             return new Response(JSON.stringify({ error: "Password must be 40 characters or less" }), {
                 status: 400
             })
@@ -32,9 +32,7 @@ export async function POST(request) {
         }
 
         const newUser = await CreateUser(email.trim(), username.trim(), password)
-
         return new Response({status: 201})
-
     } catch(error) {
         console.log(error)
         return new Response(JSON.stringify({ error: "Internal server error" }), {

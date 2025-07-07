@@ -28,10 +28,8 @@ export async function POST(request) {
         const user = await SetEmail(userId, email)
 
         return new Response({status: 200})
-        
     } catch(error) {
         console.log(error)
-
         return new Response(JSON.stringify({ error: "Internal server error" }), {
             status: 500
         })
