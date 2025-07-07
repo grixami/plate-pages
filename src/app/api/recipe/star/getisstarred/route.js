@@ -1,16 +1,16 @@
-import { CreateStar, RemoveStar, ToggleStar } from "@/app/utils/prisma/utils/recipe"
+import { GetIsStarred } from "@/app/utils/prisma/utils/recipe"
 import { cookies } from "next/headers"
-
 const jwt = require("jsonwebtoken")
 const jwtSecret = process.env.JWT_SECRET
 
-export async function POST(request) {
+export async function GET(request) {
     try {
-        const { id } = await request.json()
+        const { searchParams } = new URL(request.url)
+        const id = searchParams.get("id")
         const token = (await cookies()).get("token")?.value
 
         if(!id || !token) {
-            return new Response(JSON.stringify({ error: "Missing id or auth token"}), {
+            return new Response(JSON.stringify({ error: "id or token not found" }), {
                 status: 400
             })
         }
@@ -26,9 +26,11 @@ export async function POST(request) {
             })
         }
 
-        let star = await ToggleStar(userId, parseInt(id))
-        
-        return new Response({ status: 200 })
+        const isStarred = await GetIsStarred(userId, parseInt(id))
+
+        return new Response(JSON.stringify({ starred: isStarred }), {
+            status: 200
+        })
     } catch(error) {
         console.log(error)
         return new Response(JSON.stringify({ error: "Internal server error" }), {

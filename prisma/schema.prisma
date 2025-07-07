@@ -23,7 +23,7 @@ model User {
   password      String
 
   recipes       Recipe[]
-  faborites     Favorites[]
+  faborites     Favorite[]
 }
 
 model Recipe {
@@ -39,17 +39,15 @@ model Recipe {
   author        User          @relation(fields: [authorId], references: [id])
   authorId      Int
 
-  favorites Favorites[]
+  favorites Favorite[]
 }
 
-model Favorites {
-  id          Int           @id @default(autoincrement())
+model Favorite {
+  @@id([userId, recipeId])
 
   user        User          @relation(fields: [userId], references: [id])
   userId      Int
 
   recipe      Recipe        @relation(fields: [recipeId], references: [id])
   recipeId    Int
-
-  @@unique([userId, recipeId])
 }

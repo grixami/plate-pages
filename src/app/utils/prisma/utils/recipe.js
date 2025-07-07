@@ -80,3 +80,44 @@ export async function UpdateRecipe(recipeId, title, desc, ingredients, instructi
 
     return recipe
 }
+
+export async function ToggleStar(userId, recipeId) {
+    const existing = await prisma.favorite.findUnique({
+        where: {
+            userId_recipeId: {
+                userId, 
+                recipeId
+            }
+        }
+    });
+
+    if (existing) {
+        return prisma.favorite.delete({
+            where: {
+                userId_recipeId: {
+                    userId, recipeId
+                }
+            }
+        });
+
+    } else {
+        return prisma.favorite.create({
+            data: {
+                userId, recipeId
+            }
+        });
+    }
+}
+
+export async function GetIsStarred(userId, recipeId) {
+    const existing = await prisma.favorite.findUnique({
+        where: {
+            userId_recipeId: {
+                userId, 
+                recipeId
+            }
+        }
+    });
+
+    return !!existing
+}

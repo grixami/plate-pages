@@ -16,7 +16,7 @@ function PostView() {
 
     useEffect(() => {
         const getRecipe = async () => {
-            const resp = await fetch(`/api/recipe/getrecipe?id=${id}&starring=${(!isStarred).toString()}`)
+            const resp = await fetch(`/api/recipe/getrecipe?id=${id}`)
             const respJson = await resp.json()
 
             const parsed = {
@@ -24,10 +24,18 @@ function PostView() {
                 ingredients: JSON.parse(respJson.ingredients),
                 instructions: JSON.parse(respJson.instructions),
             }
-            setLoading(false)
+            setLoading(false) // can set loading as false here as the getIsStarred runs before and loading will be complete
             setRecipe(parsed)
         }
 
+        const getIsStarred = async () => {
+            const resp = await fetch(`/api/recipe/star/getisstarred?id=${id}`)
+            const respJson = await resp.json()
+
+            setIsStarred(respJson.starred)
+        }
+
+        getIsStarred()
         getRecipe()
     }, [id])
 
@@ -40,7 +48,7 @@ function PostView() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id: id
+                id: id,
             })
         })
     }
