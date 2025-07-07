@@ -25,7 +25,7 @@ export async function POST(request) {
             })
         }
 
-        const recipe = await CreateRecipe(time.toString(), desc.toString(), ingredients, instructions, parseInt(time), decoded.userId)
+        const recipe = await CreateRecipe(title, desc.toString(), ingredients, instructions, parseInt(time), decoded.userId)
 
         return new Response(JSON.stringify({ id: recipe.id }), {
             status: 201

@@ -3,3 +3,4 @@
 export const MaxPassLen = 40
 export const MaxUsernameLen = 15
 export const BcryptSaltRounds = 10
+export const LoadingRecipePlaceholders = 8

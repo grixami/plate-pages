@@ -1,7 +1,47 @@
+"use client"
+
 import Image from "next/image";
 import { Sidebar } from "../components/sidebar";
+import { useEffect, useState } from "react";
+import RecipeCard from "../components/dashboard/recipecard";
+import LoadingRecipeCard from "../components/dashboard/loadingrecipecard";
+import { LoadingRecipePlaceholders } from "../utils/setvalues";
 
 export default function Dashboard() {
+    const [recipes, setRecipes] = useState([])
+
+    const [getRecipeLoading, setRecipeLoading] = useState(true)
+
+    const delRecipe = async (recipeId) => {
+        try {
+            const resp = await fetch("/api/recipe/delrecipe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    recipeId: recipeId
+                })
+            })
+
+            setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== recipeId));
+        } catch(error) {
+
+        }
+    }
+
+    useEffect(() => {
+        const getRecipes = async () => {
+            const resp = await fetch("/api/user/getownrecipe", {
+                method: "GET"
+            })
+            const respJson = await resp.json()
+            setRecipes(respJson)
+            setRecipeLoading(false)
+        }
+        getRecipes()
+    }, [])
+
     return (
         <div className="flex w-full h-screen">
             <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
@@ -25,13 +65,13 @@ export default function Dashboard() {
                 <h1 className="text-4xl my-4 ml-4 font-bold">Your Created Recipes</h1>
                 <div className="flex-1 overflow-y-auto">
                     <div className="grid grid-cols-4 gap-x-6 gap-y-6 mx-5 mt-4">
-                        {Array.from({ length: 80 }).map((_, i) => (
-                            <div key={i} className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] flex flex-col bg-white h-[25vh] rounded-lg items-center justify-center transition-transform duration-300 hover:cursor-pointer hover:scale-105 hover:-translate-y-3">
-                                <p className="text-center text-2xl">Recipe {i + 1}</p>
-                                <p className="description">description</p>
-                                <p>{60} mins to cook</p>
-                            </div>
+                        {recipes.length > 0 && recipes.map((recipe) => (
+                            <RecipeCard key={recipe.id} recipe={recipe} callback={delRecipe}/>
                         ))}
+                        {getRecipeLoading && Array.from({ length: LoadingRecipePlaceholders }).map((_, index) => (
+                            <LoadingRecipeCard key={index}/>
+                        ))}
+                        
                     </div>
                 </div>
             </div>
