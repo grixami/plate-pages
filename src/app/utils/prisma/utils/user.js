@@ -6,6 +6,7 @@ export async function GetUserData(userId) {
             id: userId
         },
         select: {
+            isPrivate: true,
             username: true,
             email: false,
             password: false
@@ -13,4 +14,14 @@ export async function GetUserData(userId) {
     })
 
     return user
+}
+
+export async function GetPrivacySetting(userId) {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    })
+
+    return user.isPrivate
 }

@@ -13,33 +13,34 @@ function ViewUser() {
     const [favs, setFavs] = useState([])
     const [userData, setUserData] = useState([])
     const [getRecipeLoading, setRecipeLoading] = useState(true)
+    const [privProfile, setPrivProfile] = useState(false)
 
     const searchParams = useSearchParams()
     const id = searchParams.get("id")
 
     useEffect(() => {
-        const getRecipes = async () => {
-            const resp = await fetch(`/api/user/getuserrecipe?id=${id}`)
-            const respJson = await resp.json()
-            setRecipes(respJson)
+        const fetchData = async () => {
+            const userResp = await fetch(`/api/user/getuser?id=${id}`)
+            if (userResp.status === 403) {
+                setPrivProfile(true)
+                return
+            }
+
+            const userJson = await userResp.json()
+            setUserData(userJson)
+
+            const favsResp = await fetch(`/api/user/getuserfavs?id=${id}`)
+            const favsJson = await favsResp.json()
+            setFavs(favsJson)
+
+            const recipesResp = await fetch(`/api/user/getuserrecipe?id=${id}`)
+            const recipesJson = await recipesResp.json()
+            setRecipes(recipesJson)
             setRecipeLoading(false)
         }
-
-        const getFavs = async () => {
-            const resp = await fetch(`/api/user/getuserfavs?id=${id}`)
-            const respJson = await resp.json()
-            setFavs(respJson)
-        }
-
-        const getUser = async () => {
-            const resp = await fetch(`/api/user/getuser?id=${id}`)
-            const respJson = await resp.json()
-            setUserData(respJson)
-        }
-        getUser()
-        getFavs()
-        getRecipes()
-    }, [id])
+        
+    fetchData()
+}, [id])
 
     return (
         <div className="flex w-full h-screen">
@@ -61,6 +62,8 @@ function ViewUser() {
                         <input type="text" placeholder="What would you like to search for today?" className="w-full focus:outline-none"/>
                     </form>
                 </div>
+                {!privProfile ? (
+                <>
                 <h1 className="text-4xl my-4 ml-4 font-bold">{getRecipeLoading ? ("loading") : (userData?.username)}&apos;s  Created Recipes</h1>
                 <div className="flex-1 overflow-y-auto">
                     <div className="grid grid-cols-4 gap-x-6 gap-y-6 mx-5 mt-4">
@@ -83,6 +86,10 @@ function ViewUser() {
                         ))}
                     </div>
                 </div>
+                </>
+                ) : (
+                    <h1 className="ml-4 font-bold text-4xl">Users profile is private</h1>
+                )}
             </div>
         </div>
     );

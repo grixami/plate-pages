@@ -25,7 +25,7 @@ export default function Dashboard() {
 
             setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== recipeId));
         } catch(error) {
-
+            
         }
     }
 
@@ -48,17 +48,17 @@ export default function Dashboard() {
             </div>
             <div className="w-[83%] h-full bg-[#edede9] flex flex-col">
                 <div className="h-[15%] flex items-center justify-center">
-                    <form className="w-5/6 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] p-2 rounded-xl flex space-x-2">
+                    <form action={"/explore/search"} className="w-5/6 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] p-2 rounded-xl flex space-x-2">
                         <button type="submit">
                             <Image
-                                className="hover:cursor-pointer transition-transform ease-in-out duration-300 hover:scale-105 hover:-rotate-15"
+                                className="hover:cursor-pointer transition-transform ease-in-out duration-300 hover:scale-115 hover:-rotate-15"
                                 src={"/assets/icon/search.svg"}
                                 alt=""
                                 width={30}
                                 height={30}
                             />
                         </button>
-                        <input type="text" placeholder="What would you like to search for today?" className="w-full focus:outline-none"/>
+                        <input name="q" type="text" placeholder="search for recipe" className="w-full focus:outline-none"/>
                     </form>
                 </div>
                 <h1 className="text-4xl my-4 ml-4 font-bold">Your Created Recipes</h1>

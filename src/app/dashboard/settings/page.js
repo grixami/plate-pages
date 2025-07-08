@@ -3,7 +3,7 @@
 import Loading from "@/app/components/forms/loading";
 import { Sidebar } from "@/app/components/sidebar";
 import { MaxPassLen, MaxUsernameLen } from "@/app/utils/setvalues";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Settings() {
     const [email, setEmail] = useState("")
@@ -20,6 +20,21 @@ export default function Settings() {
     const [passwordSuccess, setPasswordSucess] = useState(false)
     const [passwordErrMsg, setPasswordErrMsg] = useState("")
     const [passwordLoading, setPasswordLoading] = useState(false)
+
+    const [privatePorfile, setPrivateProfile] = useState(false)
+    const [privatePorfileSuccess, setPrivatePorfileSucess] = useState(false)
+    const [privatePorfileErrMsg, setPrivatePorfileErrMsg] = useState("")
+    const [privatePorfileLoading, setPrivatePorfileLoading] = useState(false)
+
+    useEffect(() => {
+        const getPrivacy = async () => {
+            const resp = await fetch("/api/settings/getprivacy")
+            const respJson = await resp.json()
+            setPrivateProfile(respJson?.isPrivate)
+        }
+
+        getPrivacy()
+    }, [])
 
     const handleEmailSubmit = async (e) => {
         e.preventDefault()
@@ -123,6 +138,40 @@ export default function Settings() {
         }
     }
 
+    const handlePrivProfileSubmit = async (e) => {
+        e.preventDefault()
+        setPrivatePorfileLoading(true)
+        setPrivatePorfileSucess(false)
+        setPrivatePorfileErrMsg("")
+        try {
+            const resp = await fetch("/api/settings/changevisiblity", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    privatePorfile: privatePorfile
+                })
+            })
+
+            if(!resp.ok) {
+                const respJson = await resp.json()
+                setPrivatePorfileErrMsg(respJson.error)
+                if(resp.status === 429) {
+                    setPrivatePorfileErrMsg("You have been raitlimited")
+                }
+                setPrivatePorfileLoading(false)
+                return
+            }
+
+            setPrivatePorfileSucess(true)
+            setPrivatePorfileLoading(false)
+        } catch(error) {
+            setPrivatePorfileLoading(false)
+            setPrivatePorfileErrMsg(error.toString())
+        }
+    }
+
     return (
         <div className="flex w-full h-screen">
             <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
@@ -130,7 +179,7 @@ export default function Settings() {
             </div>
             <div className="w-[83%] h-full bg-[#edede9] flex flex-col items-center">
                 <form onSubmit={handleEmailSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2  flex space-x-2">
+                    <div className="p-2 flex space-x-2">
                         <input type="email" placeholder="New email..." className="w-[70%] focus:outline-none" onChange={(e) => {setEmail(e.target.value)}}/>
                         {!emailLoading ? (
                             <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Email</button>
@@ -153,7 +202,7 @@ export default function Settings() {
                     )}
                 </form>
                 <form onSubmit={handleUsernameSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2  flex space-x-2">
+                    <div className="p-2 flex space-x-2">
                         <input maxLength={MaxUsernameLen} type="text" placeholder="New username..." className="w-[70%] focus:outline-none" onChange={(e) => {setUsername(e.target.value)}}/>
                         {!usernameLoading ? (
                             <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Username</button>
@@ -176,7 +225,7 @@ export default function Settings() {
                     )}
                 </form>
                 <form onSubmit={handlePasswordSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2  flex space-x-2">
+                    <div className="p-2 flex space-x-2">
                         <input maxLength={MaxPassLen} type="password" placeholder="New password..." className="w-[70%] focus:outline-none" onChange={(e) => {setPassword(e.target.value)}}/>
                         {!passwordLoading ? (
                             <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Password</button>
@@ -189,10 +238,39 @@ export default function Settings() {
                     </div>
                     {passwordErrMsg.length > 0 && (
                     <div className="p-2 bg-red-100 rounded-b-xl">
-                        <p className="text-red-800">Error: {usernameErrMsg}</p>
+                        <p className="text-red-800">Error: {passwordErrMsg}</p>
                     </div>
                     )}
                     {passwordSuccess && (
+                    <div className="p-2 bg-green-100 rounded-b-xl">
+                        <p className="text-green-800">Success</p>
+                    </div>
+                    )}
+                </form>
+                <form onSubmit={handlePrivProfileSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
+                    <div className="p-2 flex items-center space-x-2">
+                        <p className="text-xl">Private Profile</p>
+                        <label className="flex items-center justify-between bg-white py-2 rounded-xl hover:cursor-pointer">
+                            <div className="relative">
+                                <input type="checkbox" className="sr-only peer" id="privateToggle" checked={privatePorfile} onChange={() => setPrivateProfile(p => !p)}/>
+                                <div className="w-14 h-8 bg-gray-200 rounded-full peer-checked:bg-blue-500 transition-colors"></div>
+                                <div className="absolute left-1 top-1 w-6 h-6 bg-white rounded-full peer-checked:translate-x-6 transition-transform shadow"/>
+                            </div>
+                        </label>
+                        {!privatePorfileLoading ? (
+                            <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Privacy</button>
+                        ) : (
+                            <div className="justify-center items-center flex w-[30%]">
+                                <Loading/>
+                            </div>
+                        )}
+                    </div>
+                    {privatePorfileErrMsg.length > 0 && (
+                    <div className="p-2 bg-red-100 rounded-b-xl">
+                        <p className="text-red-800">Error: {privatePorfileErrMsg}</p>
+                    </div>
+                    )}
+                    {privatePorfileSuccess && (
                     <div className="p-2 bg-green-100 rounded-b-xl">
                         <p className="text-green-800">Success</p>
                     </div>

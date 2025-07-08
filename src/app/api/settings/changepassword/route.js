@@ -10,7 +10,7 @@ export async function POST(request) {
         const token = (await cookies()).get("token")?.value
 
         if(!password || !token) {
-            return new Response(JSON.stringify({ error: "Missing username or auth token" }), {
+            return new Response(JSON.stringify({ error: "Missing password or auth token" }), {
                 status: 400
             })
         }

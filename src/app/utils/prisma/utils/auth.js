@@ -50,5 +50,4 @@ export async function GetUserId(email) {
     })
 
     return user.id
-    
 }

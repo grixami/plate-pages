@@ -7,6 +7,11 @@ export async function GET(request) {
         const id = searchParams.get("id")
 
         const userData = await GetUserData(parseInt(id))
+        if(userData.isPrivate === true) {
+            return new Response(JSON.stringify({ error: "Profile is private" }), {
+                status: 403
+            })
+        }
         return new Response(JSON.stringify(userData))
     } catch(error) {
         return new Response(JSON.stringify({ error: "Internal server error" }), {

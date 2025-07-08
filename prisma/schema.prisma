@@ -22,6 +22,8 @@ model User {
   username      String        @unique
   password      String
 
+  isPrivate     Boolean       @default(false)
+
   recipes       Recipe[]
   faborites     Favorite[]
 }

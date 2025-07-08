@@ -9,3 +9,5 @@ export const MinUsernameLen = 3 //TODO
 export const BcryptSaltRounds = 10 // something to do with hashing passwords
 export const LoadingRecipePlaceholders = 8 // number of placeholder cards for a users created recipes (cards with no text)
 export const LoadingRecipeStarsPlaceholders = 8 // number of placeholder cards for a users starred recipes (cards with no text)
+
+export const RecentRecipeNumber = 50 // number of recent recipes to load on /explore

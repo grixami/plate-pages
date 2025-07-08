@@ -148,3 +148,26 @@ export async function GetStarredRecipes(userId) {
         }
     })
 }
+
+export async function GetRecentRecipes(number) {
+    const recipes = await prisma.recipe.findMany({
+        take: number,
+        orderBy: {
+            id: "desc" // takes latest posts as ids increment by 1 every post
+        }
+    })
+
+    return recipes
+}
+
+export async function GetRecipeFromTitleQuery(query) {
+    const recipes = await prisma.recipe.findMany({
+        where: {
+            title: {
+                contains: query
+            }
+        }
+    })
+    
+    return recipes
+}

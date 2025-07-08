@@ -16,5 +16,6 @@ export const config = {
     "/dashboard/:path",
     "/recipe/:path",
     "/user/:path",
+    "/explore/:path"
   ],
 }

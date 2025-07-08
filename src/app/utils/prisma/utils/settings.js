@@ -39,3 +39,16 @@ export async function SetPassword(userId, password) {
 
     return user
 }
+
+export async function setPrivateProfile(userId, privacySetting) {
+    const user = await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            isPrivate: privacySetting
+        }
+    })
+    
+    return user
+}
