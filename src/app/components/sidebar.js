@@ -32,6 +32,15 @@ export function Sidebar({ selected }) {
                     />
                     <p className="text-xl">Create Recipe</p>
                 </a>
+                <a href="/dashboard/generate" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "generate" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
+                    <Image
+                    src={"/assets/icon/robot.svg"}
+                    alt=""
+                    width={30}
+                    height={30}
+                    />
+                    <p className="text-xl">Generate Recipe</p>
+                </a>
                 <a href="/explore" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "explore" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/compass.svg"}
@@ -50,15 +59,6 @@ export function Sidebar({ selected }) {
                     height={30}
                     />
                     <p className="text-xl">Favorites</p>
-                </a>
-                <a href="/dashboard/help" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "help" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
-                    <Image
-                    src={"/assets/icon/questionmark.svg"}
-                    alt=""
-                    width={30}
-                    height={30}
-                    />
-                    <p className="text-xl">Help</p>
                 </a>
                 <a href="/dashboard/settings" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "settings" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
