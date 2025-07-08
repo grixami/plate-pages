@@ -48,7 +48,7 @@ function PostView() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id: id,
+                id: id
             })
         })
     }
@@ -88,7 +88,7 @@ function PostView() {
                                     
                                 </div>
                                 <p className="text-lg">{recipe?.description}</p>
-                                <p className="text-sm">By: <a href={`/user/viewprofile?id=${recipe?.authorId}`}>{recipe?.author?.username}</a></p>
+                                <p className="text-sm">By: <a href={`/user/view?id=${recipe?.authorId}`}>{recipe?.author?.username}</a></p>
                             </div>
                         </div>
                         ) : (

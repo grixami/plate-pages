@@ -21,7 +21,7 @@ export async function POST(request) {
             const decoded = jwt.verify(token, jwtSecret)
             userId = decoded.userId
         } catch(error) {
-            return new Response(JSON.stringify({ error: "Invalid token" }), {
+            return new Response(JSON.stringify({ error: "Invalid auth token" }), {
                 status: 401
             })
         }

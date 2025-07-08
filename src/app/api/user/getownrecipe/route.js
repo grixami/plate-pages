@@ -12,7 +12,7 @@ export async function GET(request) {
            const decoded = jwt.verify(token, jwtSecret)
            userId = decoded.userId
         } catch(error) {
-            return new Response(JSON.stringify({ error: "Token is invalid" }), {
+            return new Response(JSON.stringify({ error: "Auth token is invalid" }), {
                 status: 401
             })
         }

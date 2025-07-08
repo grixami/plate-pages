@@ -1,4 +1,4 @@
-import { CreateStar, RemoveStar, ToggleStar } from "@/app/utils/prisma/utils/recipe"
+import { ToggleStar } from "@/app/utils/prisma/utils/recipe"
 import { cookies } from "next/headers"
 
 const jwt = require("jsonwebtoken")

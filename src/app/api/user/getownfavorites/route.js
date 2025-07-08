@@ -1,38 +1,36 @@
-import { SetEmail } from "@/app/utils/prisma/utils/settings"
+import { GetStarredRecipes } from "@/app/utils/prisma/utils/recipe"
 import { cookies } from "next/headers"
+
 const jwt = require("jsonwebtoken")
 const jwtSecret = process.env.JWT_SECRET
 
-export async function POST(request) {
+export async function GET(request) {
     try {
-        const { email } = await request.json()
         const token = (await cookies()).get("token")?.value
 
-        if(!email || !token) {
-            return new Response(JSON.stringify({ error: "Missing email or auth token" }), {
+        if(!token) {
+            return new Response(JSON.stringify({ error: "Missing token" }), {
                 status: 400
             })
         }
 
-        let decoded
+        let userId
 
         try {
-            decoded = jwt.verify(token, jwtSecret)
+            const decoded = jwt.verify(token, jwtSecret)
+            userId = decoded.userId
         } catch(error) {
             return new Response(JSON.stringify({ error: "Invalid auth token" }), {
                 status: 401
             })
         }
 
-        const userId = decoded.userId
-        const user = await SetEmail(userId, email)
-
-        return new Response({status: 200})
+        const favs = await GetStarredRecipes(userId)
+        return new Response(JSON.stringify(favs))
     } catch(error) {
         console.log(error)
         return new Response(JSON.stringify({ error: "Internal server error" }), {
             status: 500
         })
     }
-
 }

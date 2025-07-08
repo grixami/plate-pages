@@ -13,6 +13,8 @@ export function middleware(request) {
 export const config = {
   matcher: [
     "/:path",
-    "/dashboard/:path"
+    "/dashboard/:path",
+    "/recipe/:path",
+    "/user/:path",
   ],
 }

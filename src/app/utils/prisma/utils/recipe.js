@@ -57,6 +57,11 @@ export async function GetRecipe(recipeId) {
                 select: {
                     username: true
                 }
+            },
+            _count: {
+                select: {
+                    favorites: true
+                }
             }
         }
     })
@@ -120,4 +125,26 @@ export async function GetIsStarred(userId, recipeId) {
     });
 
     return !!existing
+}
+
+export async function GetStarredRecipes(userId) {
+    const favorites = await prisma.favorite.findMany({
+        where: {
+            userId: userId
+        },
+        include: {
+            recipe: true
+        }
+    })
+
+    return favorites.map(fav => {
+        const recipe = fav.recipe
+
+        return {
+            ...recipe,
+            ingredients: JSON.parse(recipe.ingredients),
+            instructions: JSON.parse(recipe.instructions),
+            isFavorite: true // For the /dashboard/favorites so that when you unset it as a favorite, the icon changes
+        }
+    })
 }

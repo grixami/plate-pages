@@ -20,7 +20,7 @@ export async function POST(request) {
             decoded = jwt.verify(token, jwtSecret)
         } catch(error) {
             console.log(error)
-            return new Response(JSON.stringify({ error: "Invalid auth token, please logout and then log back in" }), {
+            return new Response(JSON.stringify({ error: "Invalid auth token" }), {
                 status: 401
             })
         }

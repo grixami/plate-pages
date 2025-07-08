@@ -32,7 +32,7 @@ export async function POST(request) {
         try {
             decoded = jwt.verify(token, jwtSecret)
         } catch(error) {
-            return new Response(JSON.stringify({ error: "Invalid token" }), {
+            return new Response(JSON.stringify({ error: "Invalid auth token" }), {
                 status: 401
             })
         }
