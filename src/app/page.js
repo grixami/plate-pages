@@ -39,18 +39,12 @@ export default function Home() {
 
   return (
     <div className="bg-[#edede9] w-[100%] border h-screen overflow-y-auto">
-      <style>{`
-        @keyframes marquee {
-          0%   { transform: translateX(100%); }
-          100% { transform: translateX(-100%); }
-        }
-      `}</style>
-      <div className="flex flex-col justify-center items-center mb-202">
+      <div className="flex flex-col justify-center items-center mb-20">
         <div className="w-4/5 flex justify-between items-center mt-10 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] z-10 rounded-2xl py-4">
           <div className="items-center space-x-2 pl-3 flex">
             <h1 className="font-bold text-xl md:text-3xl">Plate Pages</h1>
             <Image
-            className="invisible sm:visible"
+              className="invisible sm:visible"
               src={"/assets/icon/plate.svg"}
               alt="icon"
               width={50}
@@ -72,13 +66,13 @@ export default function Home() {
         </div>
         <div className="mt-30 flex flex-col lg:flex-row justify-center">
           <div className="w-[100%] lg:w-1/3 flex flex-col">
-            <h1 className="text-7xl max-w-[100%] lg:max-w-[70%] text-center lg:text-start mb-10 lg:mb-0 xl:ml-4">The <p className="bg-purple-400 inline-flex p-2 rounded-2xl text-white font-bold">perfect</p> recipe sharing site</h1>
-            <hr className="w-[50%] border-2 invisible lg:visible lg:my-2"></hr>
+            <h1 className="lg:text-7xl text-5xl max-w-[100%] lg:max-w-[70%] text-center lg:text-start mb-10 lg:mb-0 xl:ml-4">The <p className="bg-purple-400 inline-flex p-2 rounded-2xl text-white font-bold">perfect</p> recipe sharing site</h1>
+            <hr className="w-[69%] border-2 invisible lg:visible lg:my-2"></hr>
             <p className="text-xl mt-2 text-center lg:text-start max-w-[100%] lg:max-w-[70%] xl:ml-4 mb-3 lg:mb-0">Perfect for creating and sharing your recipes all 100% free of charge</p>
           </div>
           <div
             ref={imgContainerRef}
-            className="rounded-md border w-fit h-fit flex transition-transform duration-600 ease-out hover:scale-115"
+            className="rounded-md border w-[90%] ml-[5%] lg:ml-0 lg:w-fit h-fit flex transition-transform duration-600 ease-out hover:scale-110 "
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ transformStyle: 'preserve-3d' }}
@@ -147,11 +141,35 @@ export default function Home() {
             <PlainRecipe title="Spinach Quiche" desc="Buttery crust filled with spinach and cheese custard." mins={55} />
           </ul>
         </div>
-        <div className="flex justify-center mt-10">
-          <h1 className="text-6xl">Features</h1>
+        <div className="flex flex-col justify-center mt-20">
+          <h1 className="md:text-6xl text-5xl text-center">Features</h1>
+          <div className="flex lg:flex-row flex-col items-center lg:items-stretch justify-center lg:space-x-5">
+            <div className="bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] px-4 py-10 rounded-lg mt-4 w-4/5 md:w-3/5 lg:max-w-1/5 transition-transform ease-in-out duration-300 hover:scale-105">
+              <h3 className="text-3xl text-center">Searching For Recipes</h3>
+              <hr className="border my-2"></hr>
+              <p className="">Search for recipes that other users of the platform have created</p>
+            </div>
+            <div className="bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] px-4 py-10 rounded-lg mt-4 w-4/5 md:w-3/5 lg:max-w-1/5 transition-transform ease-in-out duration-300 hover:scale-105">
+              <h3 className="text-3xl text-center">AI Recipe Generator</h3>
+              <hr className="border my-2"></hr>
+              <p className="">Generate your own custom recipes using AI, tailored to your unique taste buds</p>
+            </div>
+            <div className="bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] px-4 py-10 rounded-lg mt-4 w-4/5 md:w-3/5 lg:max-w-1/5 transition-transform ease-in-out duration-300 hover:scale-105">
+              <h3 className="text-3xl text-center">Favorite recipes</h3>
+              <hr className="border my-2"></hr>
+              <p className="">Favorite the recipes that you find the most appealing so you can make them later</p>
+            </div>
+          </div>
         </div>
+        <div className="mt-40 flex justify-center">
+          <div className="bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] w-[90%] px-5 py-2 sm:w-auto sm:px-10 sm:py-5 md:px-20 md:py-10 lg:px-50 lg:py-20 rounded-lg">
+            <h2 className="text-4xl font-bold text-center">Ready to create recipes?</h2>
+            <p className="text-center mt-2">Sign up now to claim 25 free AI recipe tokens</p>
+            <a href="/auth/signup" className="justify-center flex py-2 mt-4 bg-gradient-to-r from-blue-400 to-purple-700 rounded-3xl hover:cursor-pointerfont-bold text-xl text-white hover:cursor-pointer transition-transform ease-in-out duration-300 hover:scale-105">Sign Up</a>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }

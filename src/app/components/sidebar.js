@@ -1,9 +1,10 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export function Sidebar({ selected }) {
     return (
         <>
-        <div className="h-[20%] flex items-center justify-center space-x-2">
+        <Link href="/" className="h-[20%] flex items-center justify-center space-x-2 hover:cursor-pointer">
             <Image
                 src={"/assets/icon/plate.svg"}
                 alt="icon"
@@ -11,7 +12,7 @@ export function Sidebar({ selected }) {
                 height={40}
                 />
             <h1 className="text-center font-semibold text-4xl">Plate pages</h1>
-        </div>
+        </Link>
         <div className="h-[80%] flex flex-col items-center">
             <ul className="space-y-[35%]">
                 <a href="/dashboard" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "home" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>

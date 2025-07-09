@@ -57,7 +57,7 @@ export default function Signup() {
 
     return (
         <div className="w-screen h-screen">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-5 px-10 b shadow-2xl rounded-2xl w-1/3">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-5 px-10 b shadow-2xl rounded-2xl w-5/6 lg:w-2/3 xl:w-1/3">
                 <h1 className="font-semibold text-4xl text-center">Sign Up</h1>
                 <p className="text-center text-sm font-extralight">Sign Up to continue</p>
                 <form className="mt-6 flex flex-col space-y-10" onSubmit={registerUser}>
