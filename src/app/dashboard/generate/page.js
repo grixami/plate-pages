@@ -9,6 +9,7 @@ export default function Generate() {
     const router = useRouter()
 
     const [aiTokens, setAiTokens] = useState(-1)
+    const [aiTokensLoading, setAiTokensLoading] = useState(true)
 
     const [generateLoading, setGenerateLoading] = useState(false)
     const [generateError, setGenerateError] = useState("")
@@ -25,10 +26,15 @@ export default function Generate() {
 
     useEffect(() => {
         const getAiTokens = async () => {
-            const resp = await fetch("/api/user/getaitokens")
-            const respJson = await resp.json()
+            try {
+                const resp = await fetch("/api/user/getaitokens")
+                const respJson = await resp.json()
 
-            setAiTokens(respJson.count)
+                setAiTokens(respJson.count)
+                setAiTokensLoading(false)
+            } catch(error) {
+                setAiTokensLoading(false)
+            }
         }
         getAiTokens()
     }, [])
@@ -126,10 +132,16 @@ export default function Generate() {
                             <h1 className="text-4xl font-bold">Generate recipe</h1>
                         </div>
                     </div>
-                    {aiTokens != -1 && (
+                    {!aiTokensLoading ? (
                     <div className="flex mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
-                            <h1 className="text-4xl font-bold">Tokens Remaining: {aiTokens}</h1>
+                            <h1 className="text-3xl font-bold">Tokens Remaining: {aiTokens}</h1>
+                        </div>
+                    </div>
+                    ) : (
+                    <div className="flex mt-10 ml-10">
+                        <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
+                            <h1 className="text-3xl font-bold text-black/0 bg-black/30 animate-pulse rounded-2xl">Tokens Remaining: 22</h1> {/* Text is invisible */}
                         </div>
                     </div>
                     )}

@@ -15,6 +15,12 @@ function Search() {
     const [recipes, setRecipes] = useState(false)
     const [loading, setLoading] = useState(true)
 
+    const [includeAi, setIncludeAi] = useState(true)
+    
+    const toggleIncludeAi = () => {
+        setIncludeAi(!includeAi)
+    }
+
     useEffect(() => {
         const getSearchRecipes = async () => {
             const resp = await fetch(`/api/recipe/searchrecipes?q=${query}`)
@@ -47,12 +53,30 @@ function Search() {
                     <input name="q" type="text" placeholder="recipe title..." className="w-full focus:outline-none"/>
                 </form>
             </div>
-            <h1 className="text-4xl my-4 ml-4 font-bold">Recent with title &quot;{query}&quot;</h1>  
+            <div className="flex space-x-2 items-center">
+                <h1 className="text-4xl my-4 ml-4 font-bold">Recent with title &quot;{query}&quot;</h1>  
+                <div className="flex">
+                    {includeAi ? (
+                            <button className="text-lg px-2 py-2 rounded-lg text-white font-bold bg-purple-400 transition-transform ease-in-out duration-300 hover:scale-105 hover:-rotate-5 hover:bg-purple-600 hover:cursor-pointer" onClick={() => toggleIncludeAi()}>Ai is included</button>
+                    ) : (
+                        <button className="text-lg px-2 py-2 rounded-lg text-white font-bold bg-purple-400 transition-transform ease-in-out duration-300 hover:scale-105 hover:-rotate-5 hover:bg-purple-600 hover:cursor-pointer" onClick={() => toggleIncludeAi()}>Ai not included</button>
+                    )}
+                </div>
+            </div>
             <div className="flex-1 overflow-y-auto">
                 <div className="grid grid-cols-4 gap-x-6 gap-y-6 mx-5 mt-4">
+
                     {recipes.length > 0 && recipes.map((recipe) => (
-                        <UserRecipeCard key={recipe.id} recipe={recipe}/>
+                        includeAi ? (
+                            <UserRecipeCard key={recipe.id} recipe={recipe}/>
+                        ) : (
+                            recipe.aigen === false && (
+                                <UserRecipeCard key={recipe.id} recipe={recipe}/>
+                            )
+                        )
+                        
                     ))}
+
                     {loading && Array.from({ length: LoadingRecipePlaceholders }).map((_, index) => (
                         <LoadingRecipeCard key={index}/>
                     ))}

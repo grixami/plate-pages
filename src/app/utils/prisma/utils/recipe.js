@@ -165,7 +165,8 @@ export async function GetRecipeFromTitleQuery(query) {
     const recipes = await prisma.recipe.findMany({
         where: {
             title: {
-                contains: query
+                contains: query,
+                mode: "insensitive" // ignores case
             }
         }
     })
