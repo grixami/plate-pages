@@ -1,4 +1,5 @@
 import { GenerateRecipe } from "@/app/utils/openai/generaterecipe"
+import { DecrementAiTokens, GetUserAiTokens } from "@/app/utils/prisma/utils/user"
 import { cookies } from "next/headers"
 const jwt = require("jsonwebtoken")
 const jwtSecret = process.env.JWT_SECRET
@@ -8,7 +9,7 @@ export async function POST(request) {
         const token = (await cookies()).get("token")?.value
         let { desc, allergies, time} = await request.json()
 
-        if(!token || !desc || !time) {
+        if(!token || !desc || !time) { 
             return new Response(JSON.stringify({ error: "Missing a token or paramater" }), {
                 status: 400
             })
@@ -29,8 +30,16 @@ export async function POST(request) {
             })
         }
 
-        const recipe = await GenerateRecipe(desc, allergies, time)
+        const aicount = await GetUserAiTokens(userId)
 
+        if(aicount == 0) {
+            return new Response(JSON.stringify({ error: "You have no ai tokens left" }), {
+                status: 403
+            })
+        }
+
+        const recipe = await GenerateRecipe(desc, allergies, time)
+        const user = await DecrementAiTokens(userId)
         return new Response(JSON.stringify(recipe), {
             status: 200
         })

@@ -3,10 +3,12 @@
 import Loading from "@/app/components/forms/loading"
 import { Sidebar } from "@/app/components/sidebar"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Generate() {
     const router = useRouter()
+
+    const [aiTokens, setAiTokens] = useState(-1)
 
     const [generateLoading, setGenerateLoading] = useState(false)
     const [generateError, setGenerateError] = useState("")
@@ -21,9 +23,24 @@ export default function Generate() {
     const [generationResponse, setGenerationResponse] = useState({})
     const [generated, setGenerated] = useState(false)
 
+    useEffect(() => {
+        const getAiTokens = async () => {
+            const resp = await fetch("/api/user/getaitokens")
+            const respJson = await resp.json()
+
+            setAiTokens(respJson.count)
+        }
+        getAiTokens()
+    }, [])
+
     const generateRecipe = async (e) => {
         e.preventDefault()
         try {
+            if(aiTokens === 0) {
+                setGenerateError("You have no ai tokens left")
+                return
+            }
+            setAiTokens(aiTokens - 1)
             setGenerateLoading(true)
             setGenerateError("")
             const resp = await fetch("/api/generate/generaterecipe", {
@@ -43,7 +60,7 @@ export default function Generate() {
             if (respJson?.error == "I'm sorry, I cannot assist with that.") {
                 setGenerateError("Inappropriate recipe description");
                 setGenerateLoading(false)
-                return;
+                return
             }
 
             if(!resp.ok) {
@@ -55,7 +72,6 @@ export default function Generate() {
                 return
             }
 
-
             setGenerationResponse(respJson) // TODO
             setGenerateLoading(false)
             setGenerated(true)
@@ -66,7 +82,6 @@ export default function Generate() {
     }
 
     const saveGeneratedRecipe = async (e) => {
-        
         try {
             setSaveLoading(true)
             setSaveError("")
@@ -91,7 +106,6 @@ export default function Generate() {
                 return
             }
             
-
             setSaveLoading(false)
             router.push(`/recipe/view?id=${respJson.id}`)
         } catch(error) {
@@ -112,6 +126,13 @@ export default function Generate() {
                             <h1 className="text-4xl font-bold">Generate recipe</h1>
                         </div>
                     </div>
+                    {aiTokens != -1 && (
+                    <div className="flex mt-10 ml-10">
+                        <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
+                            <h1 className="text-4xl font-bold">Tokens Remaining: {aiTokens}</h1>
+                        </div>
+                    </div>
+                    )}
                     <div className="flex mt-10 ml-10">
                         <form onSubmit={(e) => generateRecipe(e)} className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
                             <h1 className="text-3xl font-bold">Details</h1>
