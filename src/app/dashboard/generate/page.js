@@ -21,8 +21,16 @@ export default function Generate() {
     const [generateDesc, setGenerateDesc] = useState("")
     const [generateAllergies, setGenerateAllergies] = useState("")
 
+    const [customizeIngredients, setCustomizeIngredients] = useState(false)
+    const [ingredients, setIngredients] = useState("")
+
     const [generationResponse, setGenerationResponse] = useState({})
     const [generated, setGenerated] = useState(false)
+
+    const toggleCustomizeIngredients = () => {
+        setCustomizeIngredients(!customizeIngredients)
+        setIngredients("")
+    }
 
     useEffect(() => {
         const getAiTokens = async () => {
@@ -49,16 +57,22 @@ export default function Generate() {
             setAiTokens(aiTokens - 1)
             setGenerateLoading(true)
             setGenerateError("")
+            const requestBody = {
+                desc: generateDesc,
+                allergies: generateAllergies,
+                time: timeToMake
+            };
+
+            if (ingredients !== "") {
+                requestBody.ingredients = ingredients;
+            }
+            
             const resp = await fetch("/api/generate/generaterecipe", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    desc: generateDesc,
-                    allergies: generateAllergies,
-                    time: timeToMake
-                })
+                body: JSON.stringify(requestBody)
             })
 
             const respJson = await resp.json()
@@ -152,6 +166,29 @@ export default function Generate() {
                             <textarea id="generatedesc" className="resize-none focus:outline-none border-2 focus:border-blue-400 rounded-lg p-2" cols={30} rows={5} placeholder="Enter recipe description..." value={generateDesc} onChange={(e) => setGenerateDesc(e.target.value)}></textarea>
                             <p className="mt-4 text-xl">Allergies</p>
                             <textarea className="resize-none focus:outline-none border-2 focus:border-blue-400 rounded-lg p-2" cols={30} placeholder="allergies seperate by comma, leave blank if none..." value={generateAllergies} onChange={(e) => setGenerateAllergies(e.target.value)}></textarea>
+                            
+                            {!customizeIngredients ? (
+                                <div className="flex mt-4">
+                                    <button className="p-2 border-3 rounded-lg border-purple-400 text-xl transition-transform duration-300 ease-in-out hover:scale-105 hover:cursor-pointer"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        toggleCustomizeIngredients()
+                                    }}>Customise Ingredients</button>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col mt-4">
+                                    <div className="flex">
+                                    <button className="p-2 rounded-lg bg-purple-400 text-xl text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:cursor-pointer"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        toggleCustomizeIngredients()
+                                    }}>Any Ingredients</button>
+                                    </div>
+                                    <p className="mt-2 text-xl">Ingredients</p>
+                                    <textarea className="resize-none focus:outline-none border-2 focus:border-blue-400 rounded-lg p-2" onChange={(e) => setIngredients(e.target.value)}></textarea>
+                                </div>
+                            )}
+                            
                             <p className="mt-4 text-xl">Time to make</p>
                             <input type="range" min={5} max={180} value={timeToMake} onChange={(e) => setTimeToMake(e.target.value)} className="hover:cursor-pointer w-50"/>
                             <div className="flex items-center">
