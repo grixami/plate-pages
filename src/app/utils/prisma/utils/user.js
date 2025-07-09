@@ -1,4 +1,3 @@
-import { use } from "react";
 import prisma from "../client";
 
 export async function GetUserData(userId) {

@@ -27,9 +27,10 @@
     "@iconify-json/tabler": "^1.2.19",
     "@iconify/tailwind4": "^1.0.6",
     "@tailwindcss/postcss": "^4",
+    "daisyui": "^5.0.46",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "prisma": "^6.11.1",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.1.11"
   }
 }

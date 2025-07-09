@@ -55,7 +55,7 @@ export default function Signin() {
     }
 
     return (
-        <div>
+        <div className="w-screen h-screen">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 py-5 px-10 b shadow-2xl rounded-2xl w-1/3">
                 <h1 className="font-semibold text-4xl text-center">Sign In</h1>
                 <p className="text-center text-sm font-extralight">Sign In to continue</p>
