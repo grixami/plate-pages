@@ -19,7 +19,7 @@ model User {
   recipes       Recipe[]   
   favorites     Favorite[] 
   
-  groups        Group[]   @relation("UserGroups")
+  groups        Group[]
   ownedGroups Group[]   @relation("GroupOwner")
 }
 
@@ -58,5 +58,5 @@ model Group {
   owner       User     @relation("GroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     Int
 
-  users         User[]  @relation("UserGroups")
+  users         User[]
 }
