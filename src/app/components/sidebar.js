@@ -14,7 +14,7 @@ export function Sidebar({ selected }) {
             <h1 className="text-center font-semibold text-4xl">Plate pages</h1>
         </Link>
         <div className="h-[80%] flex flex-col items-center">
-            <ul className="space-y-[35%]">
+            <ul className="space-y-[30%]">
                 <a href="/dashboard" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "home" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
                     src={"/assets/icon/home.svg"}
@@ -51,6 +51,15 @@ export function Sidebar({ selected }) {
                     height={30}
                     />
                     <p className="text-xl">Explore</p>
+                </a>
+                <a href="/groups" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "groups" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
+                    <Image
+                    src={"/assets/icon/people.svg"}
+                    alt=""
+                    width={30}
+                    height={30}
+                    />
+                    <p className="text-xl">groups</p>
                 </a>
                 <a href="/dashboard/favorites" className={`items-center space-x-2 p-2 rounded-xl hover:cursor-pointer ${selected == "fav" ? (" bg-blue-300 inline-flex") : ("flex opacity-50 ")}`}>
                     <Image
