@@ -122,10 +122,10 @@ export default function Generate() {
 
     return (
         <div className="flex w-full h-screen">
-            <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
+            <div className="w-[40%] md:w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
                 <Sidebar selected={"generate"}/>
             </div>
-            <div className="w-[83%] h-full bg-[#edede9] flex overflow-y-auto">
+            <div className="w-[60%] md:w-[83%] h-full bg-[#edede9] flex flex-col xl:flex-row overflow-y-auto">
                 <div className="w-[30%] flex flex-col">
                     <div className="flex mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
@@ -176,14 +176,14 @@ export default function Generate() {
                     </div>
                 </div>
                 {generated && (
-                <div className="flex flex-col w-[70%] pb-20">
+                <div className="flex flex-col w-[100%] xl:w-[70%] pb-20">
                     <div className="flex mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
                             <h1 className="text-4xl font-bold">Generated recipe</h1>
                         </div>
                     </div>
                     <div className="flex flex-col mt-10 ml-10">
-                        <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg max-w-[50%]">
+                        <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg max-w-[90%] xl:max-w-[50%]">
                             <h1 className="font-bold text-3xl">{generationResponse.title}</h1>
                             <p className="text-lg">{generationResponse.description}</p>
                             <hr className="my-6 border-1"></hr>

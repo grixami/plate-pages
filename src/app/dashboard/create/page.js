@@ -147,10 +147,10 @@ export default function CreateRecipe() {
         <div>
             <Script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js" strategy="afterInteractive"/>
             <div className="flex w-full h-screen">
-                <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
+                <div className="w-[40%] md:w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
                     <Sidebar selected={"create"}/>
                 </div>
-                <div className="w-[83%] h-full bg-[#edede9] flex flex-col max-h-full overflow-y-auto">
+                <div className="w-[60%] md:w-[83%] h-full bg-[#edede9] flex flex-col max-h-full overflow-y-auto">
                     <div className="mt-8 flex justify-center ">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white flex items-center justify-center p-2 rounded-xl">
                         <h1 className="text-5xl font-semibold text-center">Create a new recipe</h1>

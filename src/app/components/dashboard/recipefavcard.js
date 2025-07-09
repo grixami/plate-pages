@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function RecipeFavCard({ recipe, toggleFavorite }) {
     return (
-        <div className="flex flex-col shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white rounded-lg h-[25vh]"> {/* Removed animation when hovered on so the star hover animation looks better */}
+        <div className="flex flex-col shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white rounded-lg"> {/* Removed animation when hovered on so the star hover animation looks better */}
             <div className="flex pt-2 pr-2 justify-end space-x-2">
                 <a href={`/recipe/view?id=${recipe.id}`} className="bg-purple-400 p-2 text-white rounded-2xl transition-all duration-200 ease-in-out hover:bg-purple-600 hover:cursor-pointer">View</a>
                 {recipe.isFavorite ? (

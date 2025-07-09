@@ -174,17 +174,17 @@ export default function Settings() {
 
     return (
         <div className="flex w-full h-screen">
-            <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
+            <div className="w-[40%] md:w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
                 <Sidebar selected={"settings"}/>
             </div>
-            <div className="w-[83%] h-full bg-[#edede9] flex flex-col items-center">
-                <form onSubmit={handleEmailSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2 flex space-x-2">
-                        <input type="email" placeholder="New email..." className="w-[70%] focus:outline-none" onChange={(e) => {setEmail(e.target.value)}}/>
+            <div className="w-[60%] md:w-[83%] h-full bg-[#edede9] flex flex-col items-center">
+                <form onSubmit={handleEmailSubmit} className="flex flex-col w-2/3 xl:w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
+                    <div className="p-2 flex flex-col xl:flex-row space-x-2">
+                        <input type="email" placeholder="New email..." className="w-[100%] xl:w-[70%] focus:outline-none" onChange={(e) => {setEmail(e.target.value)}}/>
                         {!emailLoading ? (
-                            <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Email</button>
+                            <button type="submit" className="w-[100%] xl:w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Email</button>
                         ) : (
-                            <div className="justify-center items-center flex w-[30%]">
+                            <div className="justify-center items-center flex w-[100%] xl:w-[30%]">
                                 <Loading/>
                             </div>
                         )}
@@ -201,13 +201,13 @@ export default function Settings() {
                     </div>
                     )}
                 </form>
-                <form onSubmit={handleUsernameSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2 flex space-x-2">
-                        <input maxLength={MaxUsernameLen} type="text" placeholder="New username..." className="w-[70%] focus:outline-none" onChange={(e) => {setUsername(e.target.value)}}/>
+                <form onSubmit={handleUsernameSubmit} className="flex flex-col w-2/3 xl:w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
+                    <div className="p-2 flex space-x-2 flex-col xl:flex-row">
+                        <input maxLength={MaxUsernameLen} type="text" placeholder="New username..." className="w-[100%] xl:w-[70%] focus:outline-none" onChange={(e) => {setUsername(e.target.value)}}/>
                         {!usernameLoading ? (
-                            <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Username</button>
+                            <button type="submit" className="w-[100%] xl:w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Username</button>
                         ) : (
-                            <div className="justify-center items-center flex w-[30%]">
+                            <div className="justify-center items-center flex w-[100%] xl:w-[30%]">
                                 <Loading/>
                             </div>
                         )}
@@ -224,13 +224,13 @@ export default function Settings() {
                     </div>
                     )}
                 </form>
-                <form onSubmit={handlePasswordSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2 flex space-x-2">
-                        <input maxLength={MaxPassLen} type="password" placeholder="New password..." className="w-[70%] focus:outline-none" onChange={(e) => {setPassword(e.target.value)}}/>
+                <form onSubmit={handlePasswordSubmit} className="flex flex-col w-2/3 xl:w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
+                    <div className="p-2 flex xl:flex-row flex-col space-x-2">
+                        <input maxLength={MaxPassLen} type="password" placeholder="New password..." className="w-[100%] xl:w-[70%] focus:outline-none" onChange={(e) => {setPassword(e.target.value)}}/>
                         {!passwordLoading ? (
-                            <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Password</button>
+                            <button type="submit" className="w-[100%] xl:w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Password</button>
                         ) : (
-                            <div className="justify-center items-center flex w-[30%]">
+                            <div className="justify-center items-center flex w-[100%] xl:w-[30%]">
                                 <Loading/>
                             </div>
                         )}
@@ -247,8 +247,8 @@ export default function Settings() {
                     </div>
                     )}
                 </form>
-                <form onSubmit={handlePrivProfileSubmit} className="flex flex-col w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
-                    <div className="p-2 flex items-center space-x-2">
+                <form onSubmit={handlePrivProfileSubmit} className="flex flex-col w-2/3 xl:w-1/3 bg-white shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] rounded-xl mt-10">
+                    <div className="p-2 flex flex-col xl:flex-row items-center space-x-2">
                         <p className="text-xl">Private Profile</p>
                         <label className="flex items-center justify-between bg-white py-2 rounded-xl hover:cursor-pointer">
                             <div className="relative">
@@ -258,9 +258,9 @@ export default function Settings() {
                             </div>
                         </label>
                         {!privatePorfileLoading ? (
-                            <button type="submit" className="w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Privacy</button>
+                            <button type="submit" className="w-[100%] xl:w-[30%] p-2 bg-purple-500 rounded-2xl font-bold text-white hover:cursor-pointer transition-transform duration-300 hover:scale-105">Set Privacy</button>
                         ) : (
-                            <div className="justify-center items-center flex w-[30%]">
+                            <div className="justify-center items-center flex w-[100%] xl:w-[30%]">
                                 <Loading/>
                             </div>
                         )}
