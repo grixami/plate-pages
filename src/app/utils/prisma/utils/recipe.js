@@ -1,6 +1,6 @@
 import prisma from "../client";
 
-export async function CreateRecipe(title, desc, ingredients, instructions, time, userId) {
+export async function CreateRecipe(title, desc, ingredients, instructions, time, userId, aigen) {
     const recipe = await prisma.recipe.create({
         data: {
             title: title,
@@ -8,7 +8,8 @@ export async function CreateRecipe(title, desc, ingredients, instructions, time,
             ingredients: JSON.stringify(ingredients),
             instructions: JSON.stringify(instructions),
             cooktime: time,
-            authorId: userId
+            authorId: userId,
+            aigen: aigen
         }
     })
 

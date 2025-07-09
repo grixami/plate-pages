@@ -8,7 +8,7 @@ export default function UserRecipeCard({ recipe, callbackDelete }) {
             </div>
             <div className="flex-1 flex flex-col items-center justify-center">
                 <p className="text-center text-2xl">{recipe.title}</p>
-                <p className="description">{recipe.description}</p>
+                <p className="text-center p-1">{recipe.description}</p>
                 <p>{recipe.cooktime} mins to cook</p>
             </div>
         </div>

@@ -9,14 +9,14 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
-  username   String     @unique
-  password   String
-  isPrivate  Boolean    @default(false)
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  username      String     @unique
+  password      String
+  isPrivate     Boolean    @default(false)
 
-  recipes    Recipe[]   
-  favorites  Favorite[] 
+  recipes       Recipe[]   
+  favorites     Favorite[] 
 }
 
 model Recipe {
@@ -27,8 +27,10 @@ model Recipe {
   instructions String
   cooktime     Int
 
-  author     User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId   Int
+  aigen        Boolean    @default(false)
+
+  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    Int
 
   favorites  Favorite[]
 }
@@ -36,9 +38,9 @@ model Recipe {
 model Favorite {
   @@id([userId, recipeId])
 
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
 
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId Int
+  recipe      Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId    Int
 }

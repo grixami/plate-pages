@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
 
-function PostView() {
+function RecipeView() {
     const searchParams = useSearchParams()
     const id = searchParams.get("id")
 
@@ -87,6 +87,9 @@ function PostView() {
                                     )}
                                     
                                 </div>
+                                {recipe?.aigen && (
+                                    <p className="text-2xl my-4">Made with ai</p>
+                                )}
                                 <p className="text-lg">{recipe?.description}</p>
                                 <p className="text-sm">By: <a href={`/user/view?id=${recipe?.authorId}`}>{recipe?.author?.username}</a></p>
                             </div>
@@ -164,7 +167,7 @@ function PostView() {
 export default function GetPost() {
     return (
         <Suspense>
-            <PostView/>
+            <RecipeView/>
         </Suspense>
     )
 }

@@ -2,9 +2,12 @@
 
 import Loading from "@/app/components/forms/loading"
 import { Sidebar } from "@/app/components/sidebar"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function Generate() {
+    const router = useRouter()
+
     const [generateLoading, setGenerateLoading] = useState(false)
     const [generateError, setGenerateError] = useState("")
 
@@ -15,12 +18,15 @@ export default function Generate() {
     const [generateDesc, setGenerateDesc] = useState("")
     const [generateAllergies, setGenerateAllergies] = useState("")
 
-    const [generationResponse, setGenerationResponse] = useState([])
+    const [generationResponse, setGenerationResponse] = useState({})
+    const [generated, setGenerated] = useState(false)
 
-    const generateRecipe = async () => {
+    const generateRecipe = async (e) => {
+        e.preventDefault()
         try {
             setGenerateLoading(true)
-            const resp = await fetch("todo", {
+            setGenerateError("")
+            const resp = await fetch("/api/generate/generaterecipe", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -28,11 +34,17 @@ export default function Generate() {
                 body: JSON.stringify({
                     desc: generateDesc,
                     allergies: generateAllergies,
-                    timeToMake: timeToMake
+                    time: timeToMake
                 })
             })
 
             const respJson = await resp.json()
+
+            if (respJson?.error == "I'm sorry, I cannot assist with that.") {
+                setGenerateError("Inappropriate recipe description");
+                setGenerateLoading(false)
+                return;
+            }
 
             if(!resp.ok) {
                 setGenerateError(respJson.error)
@@ -44,24 +56,27 @@ export default function Generate() {
             }
 
 
-            setGenerationResponse("TODO") // TODO
+            setGenerationResponse(respJson) // TODO
             setGenerateLoading(false)
+            setGenerated(true)
         } catch(error) {
             setGenerateLoading(false)
             setGenerateError("Unknown Error")
         }
     }
 
-    const saveGeneratedRecipe = async () => {
+    const saveGeneratedRecipe = async (e) => {
+        
         try {
             setSaveLoading(true)
-            const resp = await fetch("TODO", {
+            setSaveError("")
+            const resp = await fetch("/api/generate/savegenerated", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    todo: "TODO"
+                    recipeDetails: generationResponse
                 })
             })
 
@@ -69,15 +84,16 @@ export default function Generate() {
 
             if(!resp.ok) {
                 setSaveError(respJson.error)
-                if(resp.status === 429) {
+                if(resp.status === 429) {   
                     setSaveError("You have been ratelimited")
                 }
                 setSaveLoading(false)
                 return
             }
+            
 
-            // TODO, redirect user to the post page
-            setSaveLoading(true)
+            setSaveLoading(false)
+            router.push(`/recipe/view?id=${respJson.id}`)
         } catch(error) {
             setSaveLoading(false)
             setSaveError("Unknown error")
@@ -89,15 +105,15 @@ export default function Generate() {
             <div className="w-[17%] max-h-full flex flex-col shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] z-10"> 
                 <Sidebar selected={"generate"}/>
             </div>
-            <div className="w-[83%] h-full bg-[#edede9] flex">
+            <div className="w-[83%] h-full bg-[#edede9] flex overflow-y-auto">
                 <div className="w-[30%] flex flex-col">
                     <div className="flex mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
                             <h1 className="text-4xl font-bold">Generate recipe</h1>
                         </div>
                     </div>
-                    <div className="flex mt-10 ml-10 ">
-                        <form className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
+                    <div className="flex mt-10 ml-10">
+                        <form onSubmit={(e) => generateRecipe(e)} className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
                             <h1 className="text-3xl font-bold">Details</h1>
                             <p className="mt-4 text-xl">Description</p>
                             <textarea id="generatedesc" className="resize-none focus:outline-none border-2 focus:border-blue-400 rounded-lg p-2" cols={30} rows={5} placeholder="Enter recipe description..." value={generateDesc} onChange={(e) => setGenerateDesc(e.target.value)}></textarea>
@@ -126,47 +142,39 @@ export default function Generate() {
                         </form>
                     </div>
                 </div>
-                <div className="flex flex-col w-[70%]">
+                {generated && (
+                <div className="flex flex-col w-[70%] pb-20">
                     <div className="flex mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg">
                             <h1 className="text-4xl font-bold">Generated recipe</h1>
                         </div>
                     </div>
-                    <div className="flex mt-10 ml-10">
+                    <div className="flex flex-col mt-10 ml-10">
                         <div className="shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.3)] bg-white p-3 rounded-lg max-w-[50%]">
-                            <h1 className="font-bold text-3xl">Title placeholder</h1>
-                            <p className="text-lg">placeholder description placeholder description placeholder description placeholder description placeholder description placeholder description placeholder description placeholder description</p>
+                            <h1 className="font-bold text-3xl">{generationResponse.title}</h1>
+                            <p className="text-lg">{generationResponse.description}</p>
                             <hr className="my-6 border-1"></hr>
-                            <div className="flex flex-col max-w-[80%] space-y-2">
+                            <div className="flex flex-col space-y-2">
                                 <h2 className="text-2xl font-bold">Ingredients</h2>
-                                <div className="flex justify-between">
-                                    <p>Placeholder Ingredient</p>
-                                    <p>100g</p>
+                                {generationResponse.ingredients.map((ingredient) => (
+                                <div key={ingredient.id} className="flex justify-between">
+                                    <p>{ingredient.ingredient}</p>
+                                    <p>{ingredient.quantity}</p>
                                 </div>
-                                <div className="flex justify-between">
-                                    <p>Placeholder Ingredient number 2</p>
-                                    <p>100g</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p>Large Placeholder Ingredient number 3</p>
-                                    <p>100g</p>
-                                </div>
+                                ))}
                             </div>
                             <hr className="my-6 border-1"></hr>
                             <div className="flex flex-col space-y-2">
                                 <h2 className="font-bold text-2xl">Instructions</h2>
-                                <div>
-                                    <p><b>1&#41;</b> This is an extremely detailed example instruction on how to make an ai generated recipe</p>
+                                {generationResponse.instructions.map((instruction, index) => (
+                                <div key={instruction.id} className="flex justify-between">
+                                    <p><b className="mr-1">{index + 1}&#41;</b>{instruction.instruction}</p>
+
                                 </div>
-                                <div>
-                                    <p><b>2&#41;</b> This is an extremely detailed example instruction on how to make an ai generated recipe</p>
-                                </div>
-                                <div>
-                                    <p><b>3&#41;</b> This is an extremely detailed example instruction on how to make an ai generated recipe</p>
-                                </div>
+                                ))}
                             </div>
                             {!saveLoading ? (
-                                <button className="p-2 mt-6 bg-purple-500 rounded-xl text-white font-bold hover:cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105">Save Recipe</button>
+                                <button onClick={() => saveGeneratedRecipe()} className="p-2 mt-6 bg-purple-500 rounded-xl text-white font-bold hover:cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105">Save Recipe</button>
                             ) : (
                                 <div className="p-2 mt-2">
                                     <Loading/>
@@ -180,8 +188,10 @@ export default function Generate() {
                             </div>
                             )}
                         </div>
+                        <div className="h-20 w-20"></div> {/* Spacer at the bottom */}
                     </div>
                 </div>
+                )}
             </div>
         </div>
     )
